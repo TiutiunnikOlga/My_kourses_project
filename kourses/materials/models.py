@@ -1,5 +1,3 @@
-from tkinter.constants import CASCADE
-
 from django.db import models
 
 
@@ -12,11 +10,17 @@ class Course(models.Model):
     )
     preview = models.ImageField(
         upload_to="materials/preview",
+        blank=True,
+        null=True,
         verbose_name="Фото",
         help_text="Прикрепите Ваше фото",
     )
     description = models.CharField(
-        max_length=1000, verbose_name="Описание", help_text="Введите описание курса"
+        blank=True,
+        null=True,
+        max_length=1000,
+        verbose_name="Описание",
+        help_text="Введите описание курса",
     )
 
 
@@ -27,18 +31,24 @@ class Lesson(models.Model):
         verbose_name="Название",
         help_text="Введите название",
     )
-    description = models.ForeignKey(
-        Course,
+    description = models.TextField(
         blank=True,
         null=True,
         verbose_name="Описание",
         help_text="Введите описание урока",
-        on_delete=models.SET_NULL,
     )
     preview = models.ImageField(
         upload_to="materials/preview",
         verbose_name="Фото",
         help_text="Прикрепите фото",
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.SET_NULL,
+        verbose_name="Курс",
+        blank=True,
+        null=True,
+        help_text="Введите название курса",
     )
     link = models.CharField(
         max_length=350,
