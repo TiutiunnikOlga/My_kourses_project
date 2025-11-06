@@ -23,6 +23,10 @@ class Course(models.Model):
         help_text="Введите описание курса",
     )
 
+    class Meta:
+        verbose_name = "Курс"
+        verbose_name_plural = "Курсы"
+
 
 class Lesson(models.Model):
     name = models.CharField(
@@ -39,6 +43,8 @@ class Lesson(models.Model):
     )
     preview = models.ImageField(
         upload_to="materials/preview",
+        blank=True,
+        null=True,
         verbose_name="Фото",
         help_text="Прикрепите фото",
     )
@@ -57,6 +63,15 @@ class Lesson(models.Model):
         help_text="Прикрепите ссылку на видео",
     )
 
+    owner = models.ForeignKey(
+        "users.User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Создатель",
+        help_text="Укажите создателя",
+    )
+
     class Meta:
-        verbose_name = "Курс"
-        verbose_name_plural = "Курсы"
+        verbose_name = "Урок"
+        verbose_name_plural = "Уроки"

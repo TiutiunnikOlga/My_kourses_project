@@ -1,14 +1,9 @@
-from django.db.models import Count
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import (
-    CreateAPIView,
-    ListAPIView,
-    RetrieveAPIView,
-    UpdateAPIView,
-    DestroyAPIView,
-)
+
 
 from materials.models import Lesson, Course
+from materials.permissions import IsOwner, IsOwnerOrModer
 from materials.serializers import (
     LessonSerializer,
     CourseSerializer,
@@ -19,37 +14,28 @@ class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
-
-class CourseListApiView(ListAPIView):
-    queryset = Course.objects.annotate(lessons_count=Count("lesson"))
-    serializer_class = CourseSerializer
+    def perform_create(self, serializer):
+        course = serializer.save()
+        course.owner = self.request.user
+        course.save()
 
 
 class LessonViewSet(ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
 
+    def get_permissions(self):
+        """Определяем права пользователя для каждого действия"""
+        if self.action == "create":
+            return [IsAuthenticated()]
+        elif self.action in ["update", "retrieve"]:
+            return [IsOwnerOrModer()]
+        elif self.action == "destroy":
+            return [IsOwner()]
+        else:
+            return [AllowAny()]
 
-class LessonCreateApiView(CreateAPIView):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
-
-
-class LessonListApiView(ListAPIView):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
-
-
-class LessonRetrieveApiView(RetrieveAPIView):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
-
-
-class LessonUpdateApiView(UpdateAPIView):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
-
-
-class LessonDestroyApiView(DestroyAPIView):
-    queryset = Lesson.objects.all()
-    serializer_class = LessonSerializer
+    def perform_create(self, serializer):
+        lesson = serializer.save()
+        lesson.owner = self.request.user
+        lesson.save()
