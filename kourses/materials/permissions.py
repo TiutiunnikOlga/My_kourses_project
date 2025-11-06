@@ -9,9 +9,13 @@ class IsModer(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
-            return True
-        if request.method in ["PUT", "PATCH"]:
+            return self.has_permission(request, view)
+        if request.method == "DELETE":
             return False
+        if request.method in ["PUT", "PATCH"]:
+            return self.has_permission(request, view)
+        return False
+
 
 
 class IsOwner(permissions.BasePermission):

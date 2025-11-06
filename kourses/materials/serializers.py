@@ -12,6 +12,7 @@ class LessonSerializer(ModelSerializer):
             "description",
             "preview",
             "link",
+            "owner",
         ]
 
 

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -64,7 +65,7 @@ class Lesson(models.Model):
     )
 
     owner = models.ForeignKey(
-        "users.User",
+        settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
