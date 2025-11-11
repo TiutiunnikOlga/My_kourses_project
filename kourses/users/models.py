@@ -71,3 +71,11 @@ class Payment(models.Model):
     class Meta:
         verbose_name = "Платеж"
         verbose_name_plural = "Платежи"
+
+class Subscribe(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Пользователь"),
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Подписка на курс")
+
+    class Meta:
+        verbose_name = "Подписка на курс"
+        verbose_name_plural = "Подписки"
