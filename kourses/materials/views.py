@@ -39,9 +39,6 @@ class LessonViewSet(ModelViewSet):
         elif self.action == "destroy":
             return [IsOwner()]
         else:
-            return [AllowAny()]
+            return [IsAuthenticated()]
 
-    def perform_create(self, serializer):
-        lesson = serializer.save()
-        lesson.owner = self.request.user
-        lesson.save()
+
