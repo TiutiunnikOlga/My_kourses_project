@@ -1,5 +1,6 @@
 from urllib import request
 
+from blib2to3.pytree import convert
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status
 from rest_framework.generics import get_object_or_404
@@ -12,6 +13,7 @@ from rest_framework.viewsets import ModelViewSet
 from materials.models import Course
 from users.models import User, Payment, Subscribe
 from users.serializers import UserSerializer, PaymentSerializer, SubscribeSerializer
+from users.servises import create_price, create_stripe_session
 
 
 class UserViewSet(ModelViewSet):
@@ -39,7 +41,16 @@ class PaymentViewSet(ModelViewSet):
         "course",
         "lesson",
         "method",
+        "amount"
     )
+    def perform_create(self, serializer):
+        amount = serializer.validated_data["amount"]
+        price = create_price(amount)
+        session_id, payment_link = create_stripe_session(price)
+        payment = serializer.save(user=self.request.user)
+        payment.session_id = session_id
+        payment.link = payment_link
+        payment.save()
 
 class SubscribeView(APIView):
     def post(self, request, format=None):

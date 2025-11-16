@@ -1,5 +1,7 @@
+from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
+
 
 from materials.models import Course
 from users.models import User, Payment, Subscribe
@@ -12,6 +14,12 @@ class UserSerializer(ModelSerializer):
 
 
 class PaymentSerializer(ModelSerializer):
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2)
+    method = serializers.CharField(required=True)
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(),
+        required=True
+    )
     class Meta:
         model = Payment
         fields = "__all__"
