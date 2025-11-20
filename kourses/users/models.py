@@ -64,10 +64,20 @@ class Payment(models.Model):
     method = models.CharField(
         max_length=20, choices=PAYMENT_METHOD_CHOISES, verbose_name="Сумма оплат"
     )
-    session_id = models.CharField(max_length=255, blank=True, null=True, verbose_name="ID сессии",
-                                  help_text="Укажите ID сессии")
-    link = models.URLField(max_length=400, blank=True, null=True, verbose_name="Ссылка на оплату",
-                           help_text="Укажите ссылку на оплату")
+    session_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="ID сессии",
+        help_text="Укажите ID сессии",
+    )
+    link = models.URLField(
+        max_length=400,
+        blank=True,
+        null=True,
+        verbose_name="Ссылка на оплату",
+        help_text="Укажите ссылку на оплату",
+    )
 
     def __str__(self):
         return f"Оплата {self.amount} от {self.user} за {self.course or self.lesson}"
@@ -78,9 +88,22 @@ class Payment(models.Model):
 
 
 class Subscribe(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Пользователь"),
-    course = models.ForeignKey(Course, on_delete=models.SET_NULL, blank=True, null=True,
-                               verbose_name="Подписка на курс")
+    user = (
+        models.ForeignKey(
+            User,
+            on_delete=models.SET_NULL,
+            blank=True,
+            null=True,
+            verbose_name="Пользователь",
+        ),
+    )
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="Подписка на курс",
+    )
 
     class Meta:
         verbose_name = "Подписка на курс"

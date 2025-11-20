@@ -1,14 +1,10 @@
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
-
-from materials.models import Lesson, Course
+from materials.models import Course, Lesson
 from materials.paginations import CustomPagination
 from materials.permissions import IsOwner, IsOwnerOrModer
-from materials.serializers import (
-    LessonSerializer,
-    CourseSerializer,
-)
+from materials.serializers import CourseSerializer, LessonSerializer
 
 
 class CourseViewSet(ModelViewSet):
@@ -22,7 +18,7 @@ class CourseViewSet(ModelViewSet):
         course.save()
 
     def get_serializer_context(self):
-        return{'request': self.request}
+        return {"request": self.request}
 
 
 class LessonViewSet(ModelViewSet):
@@ -40,5 +36,3 @@ class LessonViewSet(ModelViewSet):
             return [IsOwner()]
         else:
             return [IsAuthenticated()]
-
-
