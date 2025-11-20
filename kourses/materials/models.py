@@ -23,6 +23,7 @@ class Course(models.Model):
         verbose_name="Описание",
         help_text="Введите описание курса",
     )
+    updated_at = models.TimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Курс"

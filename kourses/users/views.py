@@ -1,5 +1,3 @@
-from django.shortcuts import redirect
-from django.views.decorators.http import require_POST
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status
 from rest_framework.generics import get_object_or_404
@@ -12,7 +10,7 @@ from materials.models import Course
 from users.models import Payment, Subscribe, User
 from users.serializers import PaymentSerializer, UserSerializer
 from users.servises import create_price, create_stripe_session
-from users.tasks import send_mail_on_update
+
 
 
 class UserViewSet(ModelViewSet):
@@ -75,10 +73,3 @@ class SubscribeView(APIView):
             status_code = status.HTTP_201_CREATED
 
         return Response({"message": message}, status=status_code)
-
-    @require_POST
-    def update_course(request, course_id):
-        course = get_object_or_404(Course, id=course_id)
-        course.save()
-        send_mail_on_update.delay(course_id.course.name)
-        return redirect("course_detail", course_id=course.id)
