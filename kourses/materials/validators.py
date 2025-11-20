@@ -7,7 +7,7 @@ class LinkValidator:
 
     def __init__(self, field):
         self.field = field
-        self.allowed_domains = {'youtube.com'}
+        self.allowed_domains = {"youtube.com"}
 
     def __call__(self, value):
         link = value.get(self.field)
@@ -20,4 +20,4 @@ class LinkValidator:
         link = link.strip()
         parsed = urlparse(link)
         if not parsed.scheme or not parsed.netloc:
-            raise ValidationError('Link not from youtube.com')
+            raise ValidationError("Link not from youtube.com")
