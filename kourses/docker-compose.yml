@@ -29,11 +29,10 @@ services:
     ports:
       - "6379:6379"
     healthcheck:
-      test: pg_isready -U ${USER} -d ${NAME}
+      test: pg_is ready -U ${USER} -d ${NAME}
       interval: 3s
       timeout: 3s
       retries: 10
-
   nginx:
     build: .
     ports:
