@@ -2,9 +2,9 @@ name: Django CI/CD Pipeline
 
 on:
   push:
-    branches: [main, develop]
+    branches: [develop]
   pull_request:
-    branches: [main, develop]
+    branches: [develop]
 
 
 jobs:
@@ -24,14 +24,14 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirments.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirments.txt
+        pip install -r requirements.txt
 
     - name: Run migrations
       run: python manage.py migrate
@@ -59,7 +59,7 @@ jobs:
           cd ${{ secrets.DEPLOY_DIR }}
           python3 -m venv venv
           source venv/bin/activate
-          pip install -r requirments.txt
+          pip install -r requirements.txt
         EOF
 
     - name: Apply migrations on server
