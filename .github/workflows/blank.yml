@@ -36,7 +36,7 @@ jobs:
           ${{ runner.os }}-pip-
 
     - name: Run Flake8
-      run: flake8 kourses/
+      run: flake8 . --config=../../kourses/.flake8
 
     - name: Run migrations
       run: python manage.py migrate
