@@ -19,13 +19,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r korses/requirements.txt
+        pip install -r kourses/requirements.txt
 
     - name: Cache pip
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('korses/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('kourses/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
@@ -59,7 +59,7 @@ jobs:
           cd ${{ secrets.DEPLOY_DIR }}
           python3 -m venv venv
           source venv/bin/activate
-          pip install -r korses/requirements.txt
+          pip install -r kourses/requirements.txt
         EOF
 
     - name: Apply migrations on server
