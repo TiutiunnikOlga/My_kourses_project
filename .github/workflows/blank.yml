@@ -96,12 +96,11 @@ jobs:
         ssh -o StrictHostKeyChecking=no \
           ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
           cd ${{ secrets.DEPLOY_DIR }}/kourses
-          if [ ! -f "db.sqlite3" ]; then
-            touch db.sqlite3
-          fi
-          chmod 664 db.sqlite3
-          chown ${{ secrets.SSH_USER }}:$(id -gn ${{ secrets.SSH_USER }}) db.sqlite3
+          sudo touch db.sqlite3
+          sudo chown ${{ secrets.SSH_USER }}:$(id -gn ${{ secrets.SSH_USER }}) db.sqlite3
+          sudo chmod 664 db.sqlite3
         EOF
+
           
     - name: Apply migrations on server
       run: |
