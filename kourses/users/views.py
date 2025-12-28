@@ -12,7 +12,6 @@ from users.serializers import PaymentSerializer, UserSerializer
 from users.servises import create_price, create_stripe_session
 
 
-
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer

@@ -12,6 +12,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
     - name: Check out code
@@ -36,13 +38,13 @@ jobs:
           ${{ runner.os }}-pip-
 
     - name: Run Flake8
-      run: flake8 . --config=../../kourses/.flake8
+      run: flake8 . --config=kourses/.flake8
 
     - name: Run migrations
-      run: python manage.py migrate
+      run: python kourses/manage.py migrate
 
     - name: Run tests
-      run: python manage.py test
+      run: python kourses/manage.py test
   deploy:
     runs-on: ubuntu-latest
     needs: test
