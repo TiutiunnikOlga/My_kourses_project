@@ -54,17 +54,11 @@ jobs:
       uses: webfactory/ssh-agent@v0.9.1
       with:
         ssh-private-key: ${{ secrets.SSH_KEY }}
-    
-    - name: Debug deployment path
-      run: |
-        echo "DEPLOY_DIR from secrets: ${{ secrets.DEPLOY_DIR }}"
-        echo "SSH_USER: ${{ secrets.SSH_USER }}"
-        echo "SERVER_IP: ${{ secrets.SERVER_IP }}"
       
     - name: Copy project files to server
       run: |
         rsync -avz -e "ssh -o StrictHostKeyChecking=no" \
-          --exclude 'pycache' \
+          --exclude '__pycache__' \
           --exclude '.git' \
           . ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_DIR }}
 
