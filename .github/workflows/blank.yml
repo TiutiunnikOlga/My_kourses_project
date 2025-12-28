@@ -63,22 +63,22 @@ jobs:
           . ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_DIR }}
 
     - name: Install system dependencies
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} \
-            "sudo apt update && sudo apt install -y python3 python3-venv"
+      run: |
+        ssh -o StrictHostKeyChecking=no \
+          ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} \
+          "sudo apt update && sudo apt install -y python3 python3-venv"
 
 
-      - name: Create and activate virtual environment
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            cd ${{ secrets.DEPLOY_DIR }}
-            python3 -m venv venv
-            source venv/bin/activate
-            python -m pip install --upgrade pip
-            pip install -r kourses/requirements.txt
-          EOF
+    - name: Create and activate virtual environment
+      run: |
+        ssh -o StrictHostKeyChecking=no \
+          ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          cd ${{ secrets.DEPLOY_DIR }}
+          python3 -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r kourses/requirements.txt
+        EOF
 
     - name: Apply migrations on server
       run: |
