@@ -26,9 +26,9 @@ INSTALLED_APPS = [
     "materials",
     "rest_framework_simplejwt",
     "drf_yasg",
-    'django_filters',
+    "django_filters",
     "corsheaders",
-    'django_celery_beat',
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -107,6 +107,7 @@ USE_TZ = True
 
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -153,8 +154,8 @@ SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CELERY_BEAT_SCHEDULE = {
-    'task-name': {
-        'task': 'users.tasks.block_inactive_users',
-        'schedule': timedelta(hours=24),
+    "task-name": {
+        "task": "users.tasks.block_inactive_users",
+        "schedule": timedelta(hours=24),
     },
 }

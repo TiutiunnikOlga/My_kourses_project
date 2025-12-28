@@ -32,9 +32,15 @@ class CourseViewSet(ModelViewSet):
         course.save()
         if course.updated_at != old_update:
             send_mail_on_update.delay(course.id)
-            return Response({"message": "Курс обновлен, письмо отправлено"}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": "Курс обновлен, письмо отправлено"},
+                status=status.HTTP_200_OK,
+            )
 
-        return Response({"message": "Курс не обновлен, письмо не отправлено"}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Курс не обновлен, письмо не отправлено"},
+            status=status.HTTP_200_OK,
+        )
 
 
 class LessonViewSet(ModelViewSet):
