@@ -1,6 +1,12 @@
 name: Django CI/CD Pipeline
 
-on: [ push, pull_request ]
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
 
 
 jobs:
@@ -32,10 +38,8 @@ jobs:
     - name: Run Flake8
       run: flake8 .
 
-    - name: Run migrations and setup Celery
-      run: |
-        python manage.py migrate
-        python manage.py setup_celery
+    - name: Run migrations
+      run: python manage.py migrate
 
     - name: Run tests
       run: python manage.py test
